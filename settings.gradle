@@ -1,0 +1,6 @@
+rootProject.name = 'project-springboot'
+include 'msr-common'
+include 'msr-generator'
+include 'msr-generator'
+include 'msr-web'
+

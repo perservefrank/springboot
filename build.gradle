@@ -1,0 +1,110 @@
+//gradle脚本自身需要使用的资源
+buildscript {
+	ext {
+		springBootVersion = '2.2.6.RELEASE'
+	}
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+//所有项目配置
+allprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'eclipse'
+	apply plugin: 'idea'
+	apply plugin: 'maven'
+	group = 'com.zjh'
+	version = '1.0-SNAPSHOT'
+}
+
+
+//子项目共享的配置
+subprojects {
+	// JVM 版本号要求
+	sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+
+	// java编译的时候缺省状态下会因为中文字符而失败
+	[compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+	//定义版本号
+	ext {
+		springVersion = '5.2.5.RELEASE'
+		springBootVersion = '2.2.6.RELEASE'
+	}
+
+	repositories {
+		mavenLocal()
+		//mavenCentral()
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+	}
+
+	dependencies {
+		testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+		// 通用依赖
+		compile(
+				"org.springframework:spring-context:$springVersion",
+				"org.springframework:spring-orm:$springVersion",
+				"org.springframework:spring-tx:$springVersion",
+				"org.springframework:spring-oxm:$springVersion",
+				"org.springframework:spring-jdbc:$springVersion",
+		)
+
+		compile(
+				"org.springframework.boot:spring-boot-starter-web:$springBootVersion",
+				// "org.springframework.boot:spring-boot-starter-data-redis:$springBootVersion",
+				"org.springframework.boot:spring-boot-starter-actuator:$springBootVersion",
+				// "org.springframework.boot:spring-boot-starter-amqp:$springBootVersion",
+				"org.springframework.boot:spring-boot-starter-aop:$springBootVersion",
+		)
+
+		compile(group: 'org.apache.httpcomponents', name: 'httpclient', version:'4.5.2') {
+			exclude(module: 'commons-logging')
+		}
+
+		compile(
+				"com.zaxxer:HikariCP:3.2.0",
+				"org.mybatis:mybatis-spring:1.3.2",
+				"org.mybatis:mybatis:3.4.6",
+				"tk.mybatis:mapper:4.1.5",
+				"com.github.pagehelper:pagehelper:4.2.1",
+				"mysql:mysql-connector-java:8.0.16",
+				"com.alibaba:fastjson:1.2.22",
+				"org.quartz-scheduler:quartz:2.2.1",
+				"alibabasms:alibaba:1.0",
+				"commons-codec:commons-codec:1.11",
+				"javax.mail:mail:1.4.5",
+		)
+
+	}
+
+	jar {
+		enabled = true
+		manifest {
+			attributes("Implementation-Title": "Gradle")
+		}
+	}
+
+	bootJar {
+		enabled = true
+	}
+
+	configurations {
+		// 所有需要忽略的包定义在此
+		all*.exclude group: 'commons-logging'
+	}
+
+	gradle.projectsEvaluated {
+		tasks.withType(JavaCompile) {
+			options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+		}
+	}
+}
