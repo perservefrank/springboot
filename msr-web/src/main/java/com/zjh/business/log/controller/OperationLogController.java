@@ -6,6 +6,8 @@ import com.zjh.msr.common.constants.Constant;
 import com.zjh.msr.common.model.DataBox;
 import com.zjh.business.log.model.OperationLog;
 import com.zjh.business.log.service.OperationLogService;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,7 @@ public class OperationLogController {
 
     @PostMapping("/add")
     public DataBox add(OperationLog operationLog) {
+        XmlBeanFactory
         operationLogService.save(operationLog);
         return DataBox.newInstance(Constant.STATUS_SUCCESS);
     }

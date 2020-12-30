@@ -35,7 +35,7 @@ public class CodeGenerator {
     private static final String PACKAGE_PATH_CONTROLLER = packageConvertPath(CONTROLLER_PACKAGE);
 
     public static void main(String[] args) {
-        genCode("operation_log");
+        genCode("user_info");
     }
 
     public static void genCode(String... tableNames) {

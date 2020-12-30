@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 @Configuration
 @AutoConfigureAfter(MybatisConfigurer.class)
-public class MyBatisMapperScannerConfig
+public class MybatisMapperScannerConfig
 {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() {
