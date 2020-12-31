@@ -14,3 +14,10 @@ spring:
       maximum-pool-size: 500
       minimum-idle: 50
       pool-name: MyHikariCP
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+server:
+  port: 8081
+debug: true
+

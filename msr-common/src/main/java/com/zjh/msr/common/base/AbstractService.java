@@ -2,6 +2,7 @@ package com.zjh.msr.common.base;
 
 
 import com.zjh.msr.common.mapper.Mapper;
+import org.apache.ibatis.binding.MapperProxy;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Condition;
